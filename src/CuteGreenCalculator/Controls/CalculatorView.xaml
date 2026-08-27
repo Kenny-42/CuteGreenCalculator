@@ -1,0 +1,27 @@
+<UserControl x:Class="CuteGreenCalculator.Controls.CalculatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             d:DesignHeight="840" d:DesignWidth="496">
+
+    <!--
+        The calculator body art (background.png) is native 62x105 px. It is rendered
+        here at an 8x integer scale (496x840) with nearest-neighbor sampling so the
+        pixel art stays crisp. This control owns all calculator face layout; it must
+        not depend on anything window-chrome related (title, resize mode, etc.) so a
+        future custom borderless window frame can host it unchanged.
+    -->
+    <Grid Width="496" Height="840">
+
+        <Image Source="pack://application:,,,/Assets/background.png"
+               Stretch="Fill"
+               RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+        <!-- Screen and button grid are added in later changes. -->
+
+    </Grid>
+</UserControl>
