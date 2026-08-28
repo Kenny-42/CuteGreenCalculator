@@ -15,5 +15,5 @@
         All calculator visuals/behavior live in CalculatorView so the chrome can be
         swapped for a custom borderless frame later without touching the face.
     -->
-    <controls:CalculatorView />
+    <controls:CalculatorView x:Name="Calculator" />
 </Window>

@@ -110,6 +110,57 @@
         </Setter>
     </Style>
 
+    <!--
+        Template for the always-on-top toggle. Mirrors PixelButtonTemplate but
+        swaps art on IsChecked instead of IsPressed, since a ToggleButton's
+        "pressed" state is transient while its "checked" state is what needs
+        a persistent visual.
+    -->
+    <ControlTemplate x:Key="PixelToggleButtonTemplate" TargetType="ToggleButton">
+        <Grid Background="Transparent">
+            <Image x:Name="PART_Image"
+                   Source="{TemplateBinding Tag}"
+                   Stretch="Fill"
+                   SnapsToDevicePixels="True"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="PART_Image" Property="Source"
+                        Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(local:PixelButton.CheckedSource)}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--
+        TEMPORARY placeholder art (see add-input-and-window-features / issue #5):
+        the always-on-top toggle reuses heart.png/heart_screen.png because no
+        dedicated pin/thumbtack sprite exists yet. This style is the only place
+        that references them for this purpose - swap both BitmapImage URIs
+        below when real art is ready.
+    -->
+    <Style x:Key="AlwaysOnTopToggleStyle" TargetType="ToggleButton">
+        <Setter Property="Template" Value="{StaticResource PixelToggleButtonTemplate}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/heart.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.CheckedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/heart_screen.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Speed-dial skins -->
 
     <Style x:Key="MidGreenShortButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
