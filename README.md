@@ -12,8 +12,8 @@ with the mouse.
 - **Four-function math** — add, subtract, multiply, divide, with chained
   operations (`5 + 3 × 2 =`) and repeat-last-operation on repeated `=`.
 - **Square root** (`√`) and sign toggle (`+/-`).
-- **Speed-dial buttons** — `45`, `90`, `180` type those digits straight into
-  the display in one click, handy for quick angle entry.
+- **Speed-dial buttons** — `45`, `90`, `180`, `270` type those digits straight
+  into the display in one click, handy for quick angle entry.
 - **Full keyboard support** — digits, `.`, `+ - * /`, Enter for `=`, Escape
   for `C`, Delete for `CE`, Backspace to delete a character, F9 for `+/-`,
   and `@` for `√`.
@@ -64,3 +64,7 @@ Release automatically.
 This project is built and tracked through OpenSpec changes under
 [openspec/](openspec/), one per GitHub issue — see `openspec/changes/archive/`
 for the history of how each feature was specified and implemented.
+
+## License
+
+[MIT](LICENSE) — see the LICENSE file for details.
