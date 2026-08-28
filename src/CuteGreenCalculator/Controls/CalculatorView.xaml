@@ -86,26 +86,46 @@
                 </Grid>
             </StackPanel>
 
-            <!-- Output screen -->
+            <!--
+                Output screen. DisplayText is a real editable TextBox (issue
+                #17): the user can click into it, move the cursor, select
+                text, and edit the expression directly. Its font size is
+                auto-shrunk in code-behind (see AutoSizeDisplayFont) rather
+                than clipped/ellipsized, so Padding here only needs to keep
+                text clear of the copy button in the top-left corner.
+                Character filtering, caret-aware insertion, and native
+                Backspace/Delete/Cut resyncing all live in the code-behind.
+            -->
             <Grid Grid.Row="1" Width="432" Height="104" Margin="0,0,0,16">
                 <Image Source="pack://application:,,,/Assets/output_screen.png"
                        Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                <TextBlock x:Name="DisplayText"
-                           Text="0"
-                           FontFamily="{StaticResource PixelFont}"
-                           FontSize="32"
-                           Foreground="#3E5C3B"
-                           TextAlignment="Right"
-                           VerticalAlignment="Center"
-                           Padding="0,0,20,0"
-                           TextTrimming="CharacterEllipsis">
-                    <TextBlock.ContextMenu>
+                <TextBox x:Name="DisplayText"
+                         Text="0"
+                         FontFamily="{StaticResource PixelFont}"
+                         FontSize="32"
+                         Foreground="#3E5C3B"
+                         CaretBrush="#3E5C3B"
+                         SelectionBrush="#663E5C3B"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         TextAlignment="Right"
+                         VerticalContentAlignment="Center"
+                         Padding="64,0,20,0"
+                         FocusVisualStyle="{x:Null}">
+                    <TextBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem x:Name="CopyMenuItem" Header="Copy" />
                             <MenuItem x:Name="PasteMenuItem" Header="Paste" />
                         </ContextMenu>
-                    </TextBlock.ContextMenu>
-                </TextBlock>
+                    </TextBox.ContextMenu>
+                </TextBox>
+                <Button x:Name="BtnCopyDisplay"
+                        Style="{StaticResource CopyIconButtonStyle}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="18,18,0,0"
+                        ToolTip="Copy"
+                        AutomationProperties.Name="Copy display" />
             </Grid>
 
             <!-- Speed-dial row -->
