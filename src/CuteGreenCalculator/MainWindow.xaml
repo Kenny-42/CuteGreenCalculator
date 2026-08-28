@@ -3,19 +3,62 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:controls="clr-namespace:CuteGreenCalculator.Controls"
         mc:Ignorable="d"
         Title="Cute Green Calculator"
         Icon="pack://application:,,,/Assets/app.ico"
-        Width="496" Height="840"
-        MinWidth="248" MinHeight="420"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Width="496" Height="896"
+        MinWidth="248" MinHeight="448"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen">
 
     <!--
-        MainWindow only owns window-level chrome (title, sizing, resize behavior).
-        All calculator visuals/behavior live in CalculatorView so the chrome can be
-        swapped for a custom borderless frame later without touching the face.
+        Borderless custom chrome (issue #16): WindowStyle="None" drops the
+        native frame; WindowChrome below restores invisible edge/corner
+        resize grab-zones (CaptionHeight="0" because TitleBarView handles
+        drag-to-move and double-click-maximize itself via DragMove, rather
+        than relying on WPF's automatic system-caption behavior, which would
+        also swallow clicks meant for the logo/window-control buttons).
+        Background="Transparent" + AllowsTransparency="True" make a
+        maximized window's Viewbox letterbox bars true desktop transparency
+        (see through to whatever's behind the window) rather than a solid
+        color fill - a follow-up over the initial #7B8A5E olive fill, picked
+        once testing confirmed WindowChrome's resize/drag/maximize behavior
+        all keep working unchanged with AllowsTransparency enabled (verified
+        via interactive WM_SYSCOMMAND/SC_SIZE edge-drag, a raw mouse-driven
+        drag on TitleBarView's DragZone, and maximize/restore - see
+        design.md). The one accepted trade-off is losing the DWM drop
+        shadow, which AllowsTransparency disables entirely.
     -->
-    <controls:CalculatorView x:Name="Calculator" />
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0"
+                             ResizeBorderThickness="6"
+                             GlassFrameThickness="0"
+                             CornerRadius="0"
+                             UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <!--
+        MainWindow owns the single outer Viewbox that scales TitleBarView and
+        CalculatorView together as one 496x896 unit (see design.md) - neither
+        child control scales itself. MainWindow otherwise only owns
+        window-level chrome (title, sizing, resize behavior); all calculator
+        visuals/behavior live in CalculatorView, and all title bar behavior
+        lives in TitleBarView.
+    -->
+    <Viewbox Stretch="Uniform">
+        <Grid Width="496" Height="896">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56" />
+                <RowDefinition Height="840" />
+            </Grid.RowDefinitions>
+
+            <controls:TitleBarView x:Name="TitleBar" Grid.Row="0" />
+            <controls:CalculatorView x:Name="Calculator" Grid.Row="1" />
+        </Grid>
+    </Viewbox>
 </Window>

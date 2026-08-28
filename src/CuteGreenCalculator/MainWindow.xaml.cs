@@ -19,10 +19,13 @@ namespace CuteGreenCalculator;
 /// </summary>
 public partial class MainWindow : Window
 {
-    // Native aspect ratio of the calculator face (background.png at its 8x
-    // integer scale: 496x840). Kept locked during resize so the pixel art
-    // is only ever scaled uniformly, never stretched - see add-resizable-window.
-    private const double AspectRatio = 496.0 / 840.0;
+    // Native aspect ratio of the title bar + calculator face together
+    // (496x896: the 56px title bar strip on top of background.png at its 8x
+    // integer scale, 496x840). Kept locked during resize so the pixel art is
+    // only ever scaled uniformly, never stretched - see add-resizable-window
+    // and, for the title bar addition, issue #16. Not enforced when
+    // maximizing (WM_SIZING isn't sent for that transition) - see design.md.
+    private const double AspectRatio = 496.0 / 896.0;
 
     private const int WM_SIZING = 0x0214;
     private const int WMSZ_LEFT = 1;
@@ -45,6 +48,11 @@ public partial class MainWindow : Window
         // always-on-top wiring above but in the opposite direction.
         Activated += (_, _) => Calculator.SetFocused(true);
         Deactivated += (_, _) => Calculator.SetFocused(false);
+
+        // Title bar logo/daisy button resets the calculator (issue #16) -
+        // TitleBarView raises a plain event rather than referencing
+        // CalculatorView directly, same one-directional pattern as above.
+        TitleBar.ResetRequested += () => Calculator.ResetDisplay();
     }
 
     private void OnSourceInitialized(object? sender, EventArgs e)
