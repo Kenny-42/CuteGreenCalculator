@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="Cute Green Calculator"
         Icon="pack://application:,,,/Assets/app.ico"
-        SizeToContent="WidthAndHeight"
-        ResizeMode="CanMinimize"
+        Width="496" Height="840"
+        MinWidth="248" MinHeight="420"
+        ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen">
 
     <!--

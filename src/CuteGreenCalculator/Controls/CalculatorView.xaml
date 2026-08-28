@@ -21,7 +21,14 @@
         No calculator logic is wired up here yet (see add-calculator-engine) -
         DisplayText shows a static placeholder and buttons have no Click
         handlers.
+
+        The Grid below stays fixed at its native 496x840 "design" size; the
+        Viewbox wrapping it scales the whole rendered face as one unit to
+        fill whatever size MainWindow currently is (see add-resizable-window).
+        MainWindow locks the window's aspect ratio during resize, so this
+        Viewbox only ever scales uniformly - it never needs to letterbox.
     -->
+    <Viewbox Stretch="Uniform">
     <Grid Width="496" Height="840">
 
         <Image Source="pack://application:,,,/Assets/background.png"
@@ -149,4 +156,5 @@
 
         </Grid>
     </Grid>
+    </Viewbox>
 </UserControl>
