@@ -43,6 +43,22 @@ the calculator's core arithmetic logic (independent of any UI) is in
 [CalculatorEngine.cs](src/CuteGreenCalculator/CalculatorEngine.cs), covered by
 xunit tests in [tests/CuteGreenCalculator.Tests/](tests/CuteGreenCalculator.Tests/).
 
+## Publishing a release build
+
+To produce a single, standalone `CuteGreenCalculator.exe` that runs on any
+Windows machine without the .NET runtime installed:
+
+```sh
+dotnet publish src/CuteGreenCalculator -c Release -r win-x64
+```
+
+The self-contained, single-file executable is written to
+`src/CuteGreenCalculator/bin/Release/net10.0-windows/win-x64/publish/`.
+
+Pushing a `v*` tag (or running the [Release workflow](.github/workflows/release.yml)
+manually) builds this same artifact in CI and attaches it to a GitHub
+Release automatically.
+
 ## Project layout
 
 This project is built and tracked through OpenSpec changes under

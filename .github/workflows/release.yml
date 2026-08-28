@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release tag to publish to (e.g. v1.0.0) - required when running manually'
+        required: true
+
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish self-contained win-x64 build
+        run: >
+          dotnet publish src/CuteGreenCalculator
+          -c Release
+          -r win-x64
+          -o publish
+
+      - name: Rename artifact
+        shell: pwsh
+        run: |
+          Move-Item publish/CuteGreenCalculator.exe publish/CuteGreenCalculator-win-x64.exe
+
+      - name: Attach to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
+          files: publish/CuteGreenCalculator-win-x64.exe
+          generate_release_notes: true
