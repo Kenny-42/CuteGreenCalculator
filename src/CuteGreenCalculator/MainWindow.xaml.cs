@@ -39,6 +39,12 @@ public partial class MainWindow : Window
         InitializeComponent();
         Calculator.AlwaysOnTopChanged += isAlwaysOnTop => Topmost = isAlwaysOnTop;
         SourceInitialized += OnSourceInitialized;
+
+        // Face sleep state (issue #18): CalculatorView never touches Window
+        // itself, so MainWindow drives it directly here, mirroring the
+        // always-on-top wiring above but in the opposite direction.
+        Activated += (_, _) => Calculator.SetFocused(true);
+        Deactivated += (_, _) => Calculator.SetFocused(false);
     }
 
     private void OnSourceInitialized(object? sender, EventArgs e)
