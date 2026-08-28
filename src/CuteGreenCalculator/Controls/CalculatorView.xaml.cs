@@ -1,16 +1,32 @@
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace CuteGreenCalculator.Controls;
+
+/// <summary>
+/// The calculator face's visual states. Focus tracking (issue #18) is the
+/// first driver of this; more states can be added here later (e.g. an
+/// idle/blink animation, an error face) by extending the enum and
+/// <see cref="FaceStateAssets"/> only - <see cref="CalculatorView.SetFaceState"/>
+/// and its call sites don't need to change.
+/// </summary>
+public enum FaceState
+{
+    Awake,
+    Asleep,
+}
 
 /// <summary>
 /// Renders the calculator face: background art, screen, and button grid.
 /// Deliberately has no knowledge of the hosting window's chrome (title bar,
 /// resize mode, etc.) so a future custom borderless frame can host this
-/// control unchanged. The always-on-top toggle is a window-level concern, so
-/// this view only raises <see cref="AlwaysOnTopChanged"/> and leaves setting
-/// <c>Window.Topmost</c> to whoever hosts it.
+/// control unchanged. The always-on-top toggle and window focus are
+/// window-level concerns, so this view only raises
+/// <see cref="AlwaysOnTopChanged"/> / exposes <see cref="SetFocused"/> and
+/// leaves touching <c>Window</c> itself to whoever hosts it.
 ///
 /// Owns one <see cref="CalculatorEngine"/> instance and wires every
 /// digit/operator/function/equals button to it, including the 45/90/180
@@ -20,6 +36,12 @@ namespace CuteGreenCalculator.Controls;
 /// </summary>
 public partial class CalculatorView : UserControl
 {
+    private static readonly Dictionary<FaceState, BitmapImage> FaceStateAssets = new()
+    {
+        [FaceState.Awake] = new BitmapImage(new Uri("pack://application:,,,/Assets/face.png")),
+        [FaceState.Asleep] = new BitmapImage(new Uri("pack://application:,,,/Assets/face_sleep.png")),
+    };
+
     private readonly CalculatorEngine _engine = new();
 
     /// <summary>Raised when the always-on-top toggle's checked state changes.</summary>
@@ -161,6 +183,21 @@ public partial class CalculatorView : UserControl
     {
         BtnAlwaysOnTop.Checked += (_, _) => AlwaysOnTopChanged?.Invoke(true);
         BtnAlwaysOnTop.Unchecked += (_, _) => AlwaysOnTopChanged?.Invoke(false);
+    }
+
+    /// <summary>
+    /// Called by the hosting window when its focus state changes (see
+    /// <see cref="MainWindow.WindowFocusChanged"/>). Swaps the face to the
+    /// sleep sprite while unfocused and back to normal on refocus.
+    /// </summary>
+    public void SetFocused(bool focused)
+    {
+        SetFaceState(focused ? FaceState.Awake : FaceState.Asleep);
+    }
+
+    private void SetFaceState(FaceState state)
+    {
+        FaceImage.Source = FaceStateAssets[state];
     }
 
     /// <summary>Runs an engine action, then refreshes the display.</summary>

@@ -65,7 +65,8 @@
                 <Grid Width="120" Height="80" Margin="0,0,8,0">
                     <Image Source="pack://application:,,,/Assets/face_screen.png"
                            Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                    <Image Source="pack://application:,,,/Assets/face.png"
+                    <Image x:Name="FaceImage"
+                           Source="pack://application:,,,/Assets/face.png"
                            Width="72" Height="48"
                            Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
                 </Grid>
