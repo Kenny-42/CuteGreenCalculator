@@ -37,8 +37,7 @@
 
         <!--
             Always-on-top toggle. See AlwaysOnTopToggleStyle in
-            PixelButtonStyles.xaml for a note on its TEMPORARY placeholder
-            art (issue #5).
+            PixelButtonStyles.xaml for its pin icon art (issue #19).
         -->
         <ToggleButton x:Name="BtnAlwaysOnTop"
                       Style="{StaticResource AlwaysOnTopToggleStyle}"
