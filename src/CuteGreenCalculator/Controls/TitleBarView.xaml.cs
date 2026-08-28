@@ -1,8 +1,10 @@
 using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace CuteGreenCalculator.Controls;
@@ -23,6 +25,13 @@ public partial class TitleBarView : UserControl
         new(new Uri("pack://application:,,,/Assets/title_bar.png"));
     private static readonly BitmapImage PressedBackground =
         new(new Uri("pack://application:,,,/Assets/title_bar_pressed.png"));
+
+    // Mirrors CalculatorView.AutoSizeDisplayFont's shrink-to-fit approach:
+    // the drag zone between the logo and window-control buttons is a fixed
+    // design-pixel width, so the title text is measured once and shrunk
+    // until it fits rather than being clipped.
+    private const double MaxTitleFontSize = 14;
+    private const double MinTitleFontSize = 8;
 
     private Window? _window;
 
@@ -45,11 +54,44 @@ public partial class TitleBarView : UserControl
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        AutoSizeTitleText();
+
         _window = Window.GetWindow(this);
         if (_window == null) return;
 
         _window.StateChanged += (_, _) => UpdateMaximizeRestoreButton();
         UpdateMaximizeRestoreButton();
+    }
+
+    /// <summary>
+    /// Shrinks the title text's font size so it always fits the drag zone's
+    /// fixed design-pixel width (between the logo and window-control
+    /// buttons) instead of being clipped.
+    /// </summary>
+    private void AutoSizeTitleText()
+    {
+        var available = DragZone.ActualWidth - TitleText.Margin.Left - TitleText.Margin.Right;
+        var typeface = new Typeface(TitleText.FontFamily, TitleText.FontStyle, TitleText.FontWeight, TitleText.FontStretch);
+
+        var size = MaxTitleFontSize;
+        while (size > MinTitleFontSize && MeasureTextWidth(TitleText.Text, typeface, size) > available)
+        {
+            size -= 1;
+        }
+        TitleText.FontSize = size;
+    }
+
+    private static double MeasureTextWidth(string text, Typeface typeface, double fontSize)
+    {
+        var formatted = new FormattedText(
+            text,
+            CultureInfo.CurrentCulture,
+            FlowDirection.LeftToRight,
+            typeface,
+            fontSize,
+            Brushes.Black,
+            pixelsPerDip: 1.0);
+        return formatted.Width;
     }
 
     /// <summary>

@@ -64,12 +64,14 @@
                 the logo/window-control buttons are never treated as drags.
             -->
             <Grid x:Name="DragZone" Grid.Column="1" Background="Transparent">
-                <TextBlock Text="Cute Green Calculator"
+                <TextBlock x:Name="TitleText"
+                           Text="Cute Green Calculator"
                            FontFamily="{StaticResource PixelFont}"
-                           FontSize="12"
+                           FontSize="14"
                            Foreground="#3E5C3B"
                            VerticalAlignment="Center"
-                           Margin="12,0,0,0"
+                           Margin="12,0,4,0"
+                           TextTrimming="None"
                            IsHitTestVisible="False" />
             </Grid>
 
