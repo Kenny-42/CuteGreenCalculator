@@ -6,7 +6,11 @@ TBD - created by archiving change add-input-and-window-features. Update Purpose 
 ### Requirement: Keyboard drives calculator entry
 The application SHALL accept keyboard input as an alternative to clicking
 buttons, routing each key through the same `CalculatorEngine` operations the
-corresponding button uses.
+corresponding button uses. Typed characters SHALL be restricted to ones the
+calculator understands (digits, `.`, `+ - * /`, and `@` for `√`); anything
+else SHALL be silently rejected. The Delete key SHALL perform its ordinary
+forward-delete/delete-selection role in the now-editable display rather than
+acting as a `CE` shortcut; `CE` remains available via its button.
 
 #### Scenario: Digits and decimal point
 - **WHEN** the user types `1`, `2`, `.`, `5`
@@ -22,15 +26,14 @@ corresponding button uses.
 - **THEN** the display shows `0` and any pending operation is discarded,
   matching the `C` button
 
-#### Scenario: Delete clears the current entry
-- **WHEN** the user has entered `5`, pressed `+`, entered `39`, then presses
-  Delete
-- **THEN** the display shows `0` and the pending `+` operation is preserved,
-  matching the `CE` button
-
-#### Scenario: Backspace deletes one character
+#### Scenario: Backspace deletes one character at the cursor
 - **WHEN** the display shows `123` and the user presses Backspace
 - **THEN** the display shows `12`
+
+#### Scenario: Delete removes the character after the cursor
+- **WHEN** the display shows `5+39`, the cursor is placed between `5+3` and
+  `9`, and the user presses Delete
+- **THEN** the display shows `5+3`
 
 #### Scenario: F9 toggles sign, @ takes square root
 - **WHEN** the user enters `5` and presses F9
@@ -38,20 +41,34 @@ corresponding button uses.
 - **WHEN** the user then enters `9` and types `@`
 - **THEN** the display shows `3`
 
-### Requirement: Display value can be copied and pasted
-The display's current value SHALL be copyable to the system clipboard and
-pasteable back in, via both keyboard shortcuts and a right-click context
-menu. Pasted text SHALL be validated before being accepted; text that isn't
-a valid number SHALL be ignored rather than crashing the app or corrupting
-the display.
+#### Scenario: An unsupported character is ignored
+- **WHEN** the display shows `5` and the user types a letter key
+- **THEN** the display still shows `5`
 
-#### Scenario: Copy via Ctrl+C
-- **WHEN** the display shows `42` and the user presses Ctrl+C
+### Requirement: Display value can be copied and pasted
+The display SHALL be a real editable text field: the user can click into it,
+move the cursor with the mouse or arrow keys, and select text with the mouse
+or keyboard. The current value (or selection, if any) SHALL be copyable to
+the system clipboard via Ctrl+C, a right-click context menu, or the copy
+icon button. Pasted text SHALL be filtered to calculator-understood
+characters and inserted at the cursor/selection, the same as typing it;
+anything that doesn't survive filtering SHALL be dropped rather than
+crashing the app or corrupting the display.
+
+#### Scenario: Copy via Ctrl+C copies the selection
+- **WHEN** the display shows `5+39` and the user selects `39` and presses
+  Ctrl+C
+- **THEN** the system clipboard contains `39`
+
+#### Scenario: Copy with nothing selected copies the whole display
+- **WHEN** the display shows `42` with no selection and the user presses
+  Ctrl+C
 - **THEN** the system clipboard contains `42`
 
-#### Scenario: Paste a valid number via Ctrl+V
-- **WHEN** the system clipboard contains `3.5` and the user presses Ctrl+V
-- **THEN** the display shows `3.5` and further digit entry continues from it
+#### Scenario: Paste inserts filtered text at the cursor
+- **WHEN** the display shows `5+` with the cursor at the end and the system
+  clipboard contains `3.5`
+- **THEN** pressing Ctrl+V makes the display show `5+3.5`
 
 #### Scenario: Paste invalid text is ignored
 - **WHEN** the system clipboard contains `hello` and the user presses Ctrl+V

@@ -14,12 +14,20 @@ SHALL support multiple visual states (at minimum: focused/awake and
 unfocused/asleep), swapped by image source, structured so additional states
 can be added later without reworking the swap mechanism.
 
+The output screen SHALL host an editable text field showing the calculator's
+expression, rather than a static label, and its font size SHALL shrink as
+the expression grows so it is never clipped or truncated. A copy icon button
+SHALL sit in the output screen's top-left corner, performing the same copy
+action as Ctrl+C or the display's right-click "Copy" menu item.
+
 #### Scenario: All controls are visible and correctly skinned
 - **WHEN** the application window is displayed
 - **THEN** every button listed above is visible with the correct button skin
   for its role (number vs. operator vs. function vs. equals vs. speed-dial)
 - **AND** the status displays and output screen are visible above the button
   grid
+- **AND** the copy icon button is visible in the output screen's top-left
+  corner
 
 #### Scenario: Button rows align with the output screen
 - **WHEN** the application window is displayed at its native size
@@ -39,3 +47,13 @@ can be added later without reworking the swap mechanism.
 - **THEN** the face display immediately swaps back to the normal `face.png`
   sprite
 
+#### Scenario: A long expression shrinks to fit
+- **WHEN** the expression grows too wide to fit the output screen at the
+  default font size
+- **THEN** the display's font size decreases until the text fits, down to a
+  minimum readable size
+
+#### Scenario: The copy button copies the display
+- **WHEN** the user clicks the copy icon button
+- **THEN** the selected text is copied to the clipboard, or the whole
+  display value if nothing is selected
