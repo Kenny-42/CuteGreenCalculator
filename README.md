@@ -1,4 +1,4 @@
-# Cute Green Calculator 🩵
+# Cute Green Calculator 🌼
 
 A lightweight, pixel-art desktop calculator for Windows, built with WPF.
 It looks like a cozy little handheld gadget and works like a real
@@ -20,8 +20,22 @@ with the mouse.
 - **Copy/paste** — copy the display with Ctrl+C, paste a number back in
   with Ctrl+V, or use the right-click context menu on the display.
 - **Always-on-top toggle** — pin the calculator above other windows.
+- **Heart toggles** — 4 clickable hearts in the status row form a
+  left-to-right threshold group: click one to toggle it and everything to
+  its right on, click the leftmost lit heart again to clear the group.
+  Purely decorative.
 - Crisp, unblurred pixel art at any Windows display scale (Per-Monitor-V2
   DPI awareness).
+
+## Tech stack
+
+- **.NET 10** / **WPF** (`net10.0-windows`), no third-party UI libraries.
+- **xunit** for the test suite.
+- **[OpenSpec](openspec/)** for spec-driven planning — each feature is
+  proposed, specified, and archived as a change under `openspec/`, one per
+  GitHub issue.
+- **GitHub Actions** for CI (build + test on every push) and releases
+  (self-contained `win-x64` publish attached to a GitHub Release on tag push).
 
 ## Building and running
 
@@ -58,12 +72,6 @@ The self-contained, single-file executable is written to
 Pushing a `v*` tag (or running the [Release workflow](.github/workflows/release.yml)
 manually) builds this same artifact in CI and attaches it to a GitHub
 Release automatically.
-
-## Project layout
-
-This project is built and tracked through OpenSpec changes under
-[openspec/](openspec/), one per GitHub issue — see `openspec/changes/archive/`
-for the history of how each feature was specified and implemented.
 
 ## License
 
