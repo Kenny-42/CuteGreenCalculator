@@ -9,10 +9,19 @@
     <RootNamespace>CuteGreenCalculator</RootNamespace>
     <AssemblyName>CuteGreenCalculator</AssemblyName>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+
+    <Product>Cute Green Calculator</Product>
+    <AssemblyTitle>Cute Green Calculator</AssemblyTitle>
+    <Description>A lightweight pixel-art desktop calculator for Windows.</Description>
+    <Company>Kenny-42</Company>
+    <Authors>Kenny-42</Authors>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <Resource Include="Assets\**\*.png" />
+    <Resource Include="Assets\app.ico" />
     <Resource Include="Assets\Fonts\*.ttf" />
     <None Include="Assets\Fonts\OFL.txt" />
   </ItemGroup>
