@@ -14,12 +14,16 @@ one `.exe` so the target machine needs nothing installed.
 `PublishSingleFile` so native WPF dependencies extract correctly at runtime
 rather than being left beside the exe.
 
-These properties are added as plain `<PropertyGroup>` properties in the
-csproj guarded by nothing extra — they only take effect when `-p:PublishSingleFile=true` etc. are passed on the `dotnet publish` command line (a
-dedicated `.pubxml` publish profile is the standard MSBuild way to do this,
-but a documented CLI command is simpler for this project's size and keeps the
-csproj readable, matching how `README.md` already documents `dotnet
-build`/`dotnet run`/`dotnet test` directly).
+These properties are added in a `<PropertyGroup>` guarded by
+`Condition="'$(RuntimeIdentifier)' != ''"`, so they only activate when a RID
+is passed on the command line (`dotnet publish -r win-x64`) - plain `dotnet
+build`/`dotnet run`/`dotnet test` (used by CI's `build.yml` and everyday dev)
+stay RID-agnostic and unaffected, avoiding a slower self-contained restore on
+every build. A dedicated `.pubxml` publish profile is the more
+"discoverable-from-an-IDE" MSBuild way to do this, but a documented CLI
+command is simpler for this project's size and keeps the csproj readable,
+matching how `README.md` already documents `dotnet build`/`dotnet run`/`dotnet
+test` directly.
 
 ## Release workflow
 

@@ -1,18 +1,24 @@
 ## 1. Publish configuration
 
-- [ ] 1.1 Add self-contained single-file win-x64 publish properties to
-  `CuteGreenCalculator.csproj` (`RuntimeIdentifier`, `SelfContained`,
-  `PublishSingleFile`, `IncludeNativeLibrariesForSelfExtract`)
-- [ ] 1.2 Run `dotnet publish -c Release` and confirm a single standalone
-  `.exe` is produced in the publish output directory
+- [x] 1.1 Add self-contained single-file win-x64 publish properties to
+  `CuteGreenCalculator.csproj` (`SelfContained`, `PublishSingleFile`,
+  `IncludeNativeLibrariesForSelfExtract`), guarded by
+  `Condition="'$(RuntimeIdentifier)' != ''"` so plain `dotnet
+  build`/`run`/`test` are unaffected
+- [x] 1.2 Run `dotnet publish -r win-x64 -c Release` and confirm a single
+  standalone `.exe` is produced in the publish output directory - confirmed:
+  one ~140MB `CuteGreenCalculator.exe` (+`.pdb`) in
+  `bin/Release/net10.0-windows/win-x64/publish/`
 
 ## 2. Standalone verification
 
-- [ ] 2.1 Launch the published `.exe` directly and confirm the app starts and
-  functions normally (not just that it builds)
-- [ ] 2.2 Confirm it doesn't depend on the dev machine's installed SDK (e.g.
-  check the publish output contains the runtime files / the exe size reflects
-  a bundled runtime)
+- [x] 2.1 Launch the published `.exe` directly and confirm the app starts and
+  functions normally (not just that it builds) - launched standalone,
+  UI-Automation-clicked button "7", DPI-aware screenshot confirms the display
+  correctly shows "7"
+- [x] 2.2 Confirm it doesn't depend on the dev machine's installed SDK - exe
+  size (~140MB, vs a few hundred KB for the framework-dependent build)
+  confirms the .NET runtime is bundled in
 
 ## 3. Release automation
 

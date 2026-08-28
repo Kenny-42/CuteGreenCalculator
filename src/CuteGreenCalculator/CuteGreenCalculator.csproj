@@ -19,6 +19,16 @@
     <Version>1.0.0</Version>
   </PropertyGroup>
 
+  <!-- Self-contained, single-file win-x64 release build. Only takes effect
+       when a RuntimeIdentifier is passed on the command line (e.g.
+       `dotnet publish -r win-x64`), not for plain `dotnet build`/`dotnet
+       run`/`dotnet test` - see README "Publishing a release build". -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+
   <ItemGroup>
     <Resource Include="Assets\**\*.png" />
     <Resource Include="Assets\app.ico" />
