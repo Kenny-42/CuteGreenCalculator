@@ -6,6 +6,7 @@
         xmlns:controls="clr-namespace:CuteGreenCalculator.Controls"
         mc:Ignorable="d"
         Title="Cute Green Calculator"
+        Icon="pack://application:,,,/Assets/app.ico"
         SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen">
