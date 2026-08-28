@@ -72,15 +72,22 @@
                 <Grid Width="280" Height="80">
                     <Image Source="pack://application:,,,/Assets/heart_screen.png"
                            Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                    <!--
+                        Clickable heart group (see CalculatorView.xaml.cs for
+                        the threshold toggle logic): four independent
+                        ToggleButtons, but their IsChecked is driven entirely
+                        from code-behind rather than each other's default
+                        click-to-toggle behavior.
+                    -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
-                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
-                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
-                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
-                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        <ToggleButton x:Name="Heart0" Style="{StaticResource HeartToggleStyle}"
+                                      AutomationProperties.Name="Heart 1" />
+                        <ToggleButton x:Name="Heart1" Style="{StaticResource HeartToggleStyle}"
+                                      AutomationProperties.Name="Heart 2" />
+                        <ToggleButton x:Name="Heart2" Style="{StaticResource HeartToggleStyle}"
+                                      AutomationProperties.Name="Heart 3" />
+                        <ToggleButton x:Name="Heart3" Style="{StaticResource HeartToggleStyle}"
+                                      AutomationProperties.Name="Heart 4" />
                     </StackPanel>
                 </Grid>
             </StackPanel>

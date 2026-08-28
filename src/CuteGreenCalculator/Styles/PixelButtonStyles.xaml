@@ -159,6 +159,39 @@
     </Style>
 
     <!--
+        Heart toggle: native 7x6 art at the app's standard 8x integer scale
+        (56x48), matching the size the 4 hearts already rendered at as plain
+        Image elements before they became clickable. Shares
+        PixelToggleButtonTemplate with the always-on-top pin above - only the
+        skin differs. The group threshold logic (click one, it and everything
+        to its right toggles on, everything to its left toggles off; click
+        the leftmost toggled heart again to clear all four) lives in
+        CalculatorView.xaml.cs, not here - this style only knows how to draw
+        one heart in its normal/checked state.
+    -->
+    <Style x:Key="HeartToggleStyle" TargetType="ToggleButton">
+        <Setter Property="Template" Value="{StaticResource PixelToggleButtonTemplate}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Width" Value="56" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/heart.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.CheckedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/heart_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
         Copy icon button (issue #17): native 4x4 art at the same 8x scale
         used throughout the app, giving a 32x32 button. Sits in the output
         screen's top-left corner and performs the same action as Ctrl+C /
