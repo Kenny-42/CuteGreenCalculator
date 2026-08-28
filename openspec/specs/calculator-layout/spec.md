@@ -4,15 +4,16 @@
 TBD - created by archiving change add-pixel-button-styles. Update Purpose after archive.
 ## Requirements
 ### Requirement: Full calculator face layout
-The calculator face SHALL display, matching the reference mockup: a status row
-(face display and heart display), the main output screen, three speed-dial
-buttons (45, 90, 180), and a 5-row by 4-column grid covering `C CE +/- √`,
-`7 8 9 ÷`, `4 5 6 ×`, `1 2 3 −`, and `0 . + =`. Every button row's leftmost and
-rightmost button edges SHALL align with the output screen's left and right
-edges, with even spacing between the columns within each row. The face display
-SHALL support multiple visual states (at minimum: focused/awake and
-unfocused/asleep), swapped by image source, structured so additional states
-can be added later without reworking the swap mechanism.
+The calculator face SHALL display, matching the reference mockup: a status
+row (face display and heart display), the main output screen, four
+speed-dial buttons (45, 90, 180, 270) of uniform size, and a 5-row by
+4-column grid covering `C CE +/-`, `7 8 9 ÷`, `4 5 6 ×`, `1 2 3 −`, and
+`0 . √ =`. Every button row's leftmost and rightmost button edges SHALL
+align with the output screen's left and right edges, with even spacing
+between the columns within each row. The face display SHALL support
+multiple visual states (at minimum: focused/awake and unfocused/asleep),
+swapped by image source, structured so additional states can be added
+later without reworking the swap mechanism.
 
 The output screen SHALL host an editable text field showing the calculator's
 expression, rather than a static label, and its font size SHALL shrink as
@@ -57,3 +58,9 @@ action as Ctrl+C or the display's right-click "Copy" menu item.
 - **WHEN** the user clicks the copy icon button
 - **THEN** the selected text is copied to the clipboard, or the whole
   display value if nothing is selected
+
+#### Scenario: Rightmost operator column reads divide/multiply/subtract/add
+- **WHEN** the application window is displayed
+- **THEN** the 4th button of rows 3-6 reads, top to bottom: `÷`, `×`, `−`,
+  `+`
+- **AND** row 7's 3rd and 4th buttons are `√` and `=`
