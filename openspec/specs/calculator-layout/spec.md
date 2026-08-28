@@ -13,7 +13,9 @@ align with the output screen's left and right edges, with even spacing
 between the columns within each row. The face display SHALL support
 multiple visual states (at minimum: focused/awake and unfocused/asleep),
 swapped by image source, structured so additional states can be added
-later without reworking the swap mechanism.
+later without reworking the swap mechanism. `CalculatorView` renders this
+face at its native 496x840 design size without scaling itself - uniform
+scaling to the window is owned by whichever control hosts it (`MainWindow`).
 
 The output screen SHALL host an editable text field showing the calculator's
 expression, rather than a static label, and its font size SHALL shrink as
@@ -70,6 +72,10 @@ all-off.
 - **THEN** the 4th button of rows 3-6 reads, top to bottom: `÷`, `×`, `−`,
   `+`
 - **AND** row 7's 3rd and 4th buttons are `√` and `=`
+
+#### Scenario: CalculatorView can be reset from outside itself
+- **WHEN** something hosting `CalculatorView` calls its public reset method
+- **THEN** the display clears exactly as if the `C` button had been clicked
 
 #### Scenario: Clicking a heart toggles it and everything to its right
 - **WHEN** the user clicks a heart that is not the leftmost currently-toggled
