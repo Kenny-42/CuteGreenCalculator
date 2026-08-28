@@ -9,11 +9,16 @@
              d:DesignHeight="840" d:DesignWidth="496">
 
     <!--
-        The calculator body art (background.png) is native 62x105 px. It is rendered
-        here at an 8x integer scale (496x840) with nearest-neighbor sampling so the
-        pixel art stays crisp. This control owns all calculator face layout; it must
-        not depend on anything window-chrome related (title, resize mode, etc.) so a
-        future custom borderless window frame can host it unchanged.
+        The calculator body art (background.png) is native 62x105 px, rendered
+        here at an 8x integer scale (496x840) with nearest-neighbor sampling so
+        the pixel art stays crisp. This control owns all calculator face layout;
+        it must not depend on anything window-chrome related (title, resize
+        mode, etc.) so a future custom borderless window frame can host it
+        unchanged.
+
+        No calculator logic is wired up here yet (see add-calculator-engine) -
+        DisplayText shows a static placeholder and buttons have no Click
+        handlers.
     -->
     <Grid Width="496" Height="840">
 
@@ -21,7 +26,105 @@
                Stretch="Fill"
                RenderOptions.BitmapScalingMode="NearestNeighbor" />
 
-        <!-- Screen and button grid are added in later changes. -->
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
+            <!-- Status row: face display + heart display -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+                <Grid Width="120" Height="80" Margin="0,0,8,0">
+                    <Image Source="pack://application:,,,/Assets/face_screen.png"
+                           Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                    <Image Source="pack://application:,,,/Assets/face.png"
+                           Width="72" Height="48"
+                           Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                </Grid>
+                <Grid Width="280" Height="80">
+                    <Image Source="pack://application:,,,/Assets/heart_screen.png"
+                           Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
+                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
+                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
+                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                        <Image Source="pack://application:,,,/Assets/heart.png" Width="56" Height="48"
+                               Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <!-- Output screen -->
+            <Grid Grid.Row="1" Width="432" Height="104" Margin="0,0,0,16">
+                <Image Source="pack://application:,,,/Assets/output_screen.png"
+                       Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                <TextBlock x:Name="DisplayText"
+                           Text="0"
+                           FontFamily="{StaticResource PixelFont}"
+                           FontSize="32"
+                           Foreground="#3E5C3B"
+                           TextAlignment="Right"
+                           VerticalAlignment="Center"
+                           Padding="0,0,20,0"
+                           TextTrimming="CharacterEllipsis" />
+            </Grid>
+
+            <!-- Speed-dial row -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,8">
+                <Button x:Name="Btn45" Content="45" Style="{StaticResource MidGreenShortButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn90" Content="90" Style="{StaticResource MidGreenShortButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn180" Content="180" Style="{StaticResource MidGreenLongButtonStyle}" />
+            </StackPanel>
+
+            <!-- Row: C CE +/- √ -->
+            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,8">
+                <Button x:Name="BtnClear" Content="C" Style="{StaticResource LightPinkButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnClearEntry" Content="CE" Style="{StaticResource LightPinkButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnSign" Content="+/-" Style="{StaticResource LightPinkButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnSqrt" Content="√" Style="{StaticResource LightPinkButtonStyle}" />
+            </StackPanel>
+
+            <!-- Row: 7 8 9 ÷ -->
+            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,0,0,8">
+                <Button x:Name="Btn7" Content="7" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn8" Content="8" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn9" Content="9" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnDivide" Content="÷" Style="{StaticResource MidPinkButtonStyle}" />
+            </StackPanel>
+
+            <!-- Row: 4 5 6 × -->
+            <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,8">
+                <Button x:Name="Btn4" Content="4" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn5" Content="5" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn6" Content="6" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnMultiply" Content="×" Style="{StaticResource MidPinkButtonStyle}" />
+            </StackPanel>
+
+            <!-- Row: 1 2 3 − -->
+            <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,0,0,8">
+                <Button x:Name="Btn1" Content="1" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn2" Content="2" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="Btn3" Content="3" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnSubtract" Content="−" Style="{StaticResource MidPinkButtonStyle}" />
+            </StackPanel>
+
+            <!-- Row: 0 . + = -->
+            <StackPanel Grid.Row="7" Orientation="Horizontal">
+                <Button x:Name="Btn0" Content="0" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnDecimal" Content="." Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnAdd" Content="+" Style="{StaticResource MidPinkButtonStyle}" Margin="0,0,8,0" />
+                <Button x:Name="BtnEquals" Content="=" Style="{StaticResource DarkPinkButtonStyle}" />
+            </StackPanel>
+
+        </Grid>
     </Grid>
 </UserControl>
