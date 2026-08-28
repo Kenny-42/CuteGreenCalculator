@@ -1,0 +1,147 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CuteGreenCalculator.Styles">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--
+        Shared template for every pixel-art button: the normal art comes from
+        Tag (an ImageSource), the pressed art from the PixelButton.PressedSource
+        attached property. There is no IsMouseOver trigger, so hovering never
+        changes appearance - only IsPressed does, matching the source art
+        (which has no hover state).
+    -->
+    <ControlTemplate x:Key="PixelButtonTemplate" TargetType="Button">
+        <Grid Background="Transparent">
+            <Image x:Name="PART_Image"
+                   Source="{TemplateBinding Tag}"
+                   Stretch="Fill"
+                   SnapsToDevicePixels="True"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor" />
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="PART_Image" Property="Source"
+                        Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(local:PixelButton.PressedSource)}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- Base style: everything skin-independent. Skin styles below inherit from this. -->
+    <Style x:Key="PixelButtonBaseStyle" TargetType="Button">
+        <Setter Property="Template" Value="{StaticResource PixelButtonTemplate}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="FontFamily" Value="{StaticResource PixelFont}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="#3E5C3B" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+    </Style>
+
+    <!-- 96x80 (12x10 native) skins -->
+
+    <Style x:Key="LightGreenButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/light_green_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/light_green_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LightPinkButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/light_pink_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/light_pink_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MidPinkButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_pink_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_pink_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DarkPinkButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/dark_pink_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/dark_pink_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Speed-dial skins -->
+
+    <Style x:Key="MidGreenShortButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="112" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_short.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_short_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MidGreenLongButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="176" />
+        <Setter Property="Height" Value="80" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_long.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_long_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

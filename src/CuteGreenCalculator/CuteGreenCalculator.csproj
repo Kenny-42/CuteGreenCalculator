@@ -8,10 +8,13 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>CuteGreenCalculator</RootNamespace>
     <AssemblyName>CuteGreenCalculator</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
     <Resource Include="Assets\**\*.png" />
+    <Resource Include="Assets\Fonts\*.ttf" />
+    <None Include="Assets\Fonts\OFL.txt" />
   </ItemGroup>
 
 </Project>
