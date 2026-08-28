@@ -18,3 +18,5 @@ publish/
 ## OS junk
 Thumbs.db
 .DS_Store
+
+.vscode/
