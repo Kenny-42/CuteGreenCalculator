@@ -2,10 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--
-        Embedded pixel font (Press Start 2P, SIL Open Font License - see
-        Assets/Fonts/OFL.txt) used for every button label and the display
-        readout, so the whole app reads as one consistent pixel-art typeface.
+        Embedded LCD/seven-segment font (Cursed Timer ULiL, Freeware - see
+        https://www.fontspace.com/cursed-timer-ulil-font-f29411) used for
+        every button label and the display readout, so the whole app reads
+        as one consistent pixel-art typeface.
     -->
-    <FontFamily x:Key="PixelFont">pack://application:,,,/CuteGreenCalculator;component/Assets/Fonts/#Press Start 2P</FontFamily>
+    <FontFamily x:Key="PixelFont">pack://application:,,,/CuteGreenCalculator;component/Assets/Fonts/#Cursed Timer ULiL</FontFamily>
 
 </ResourceDictionary>

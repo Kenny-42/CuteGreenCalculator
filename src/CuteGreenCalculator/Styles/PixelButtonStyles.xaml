@@ -40,7 +40,7 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="FontFamily" Value="{StaticResource PixelFont}" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="28" />
         <Setter Property="Foreground" Value="#3E5C3B" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -221,7 +221,7 @@
     <Style x:Key="MidGreenButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
         <Setter Property="Width" Value="96" />
         <Setter Property="Height" Value="80" />
-        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontSize" Value="26" />
         <Setter Property="Tag">
             <Setter.Value>
                 <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button.png" />
