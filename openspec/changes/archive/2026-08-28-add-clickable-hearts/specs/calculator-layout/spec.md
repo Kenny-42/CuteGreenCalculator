@@ -62,6 +62,12 @@ all-off.
 - **THEN** the selected text is copied to the clipboard, or the whole
   display value if nothing is selected
 
+#### Scenario: Rightmost operator column reads divide/multiply/subtract/add
+- **WHEN** the application window is displayed
+- **THEN** the 4th button of rows 3-6 reads, top to bottom: `÷`, `×`, `−`,
+  `+`
+- **AND** row 7's 3rd and 4th buttons are `√` and `=`
+
 #### Scenario: Clicking a heart toggles it and everything to its right
 - **WHEN** the user clicks a heart that is not the leftmost currently-toggled
   heart

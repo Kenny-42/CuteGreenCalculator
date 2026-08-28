@@ -21,6 +21,12 @@ the expression grows so it is never clipped or truncated. A copy icon button
 SHALL sit in the output screen's top-left corner, performing the same copy
 action as Ctrl+C or the display's right-click "Copy" menu item.
 
+The heart display SHALL be a group of 4 independently-clickable toggles
+forming a single left-to-right threshold: clicking a heart toggles it and
+every heart to its right on, and untoggles every heart to its left. Clicking
+the leftmost currently-toggled heart again untoggles the whole group back to
+all-off.
+
 #### Scenario: All controls are visible and correctly skinned
 - **WHEN** the application window is displayed
 - **THEN** every button listed above is visible with the correct button skin
@@ -64,3 +70,16 @@ action as Ctrl+C or the display's right-click "Copy" menu item.
 - **THEN** the 4th button of rows 3-6 reads, top to bottom: `÷`, `×`, `−`,
   `+`
 - **AND** row 7's 3rd and 4th buttons are `√` and `=`
+
+#### Scenario: Clicking a heart toggles it and everything to its right
+- **WHEN** the user clicks a heart that is not the leftmost currently-toggled
+  heart
+- **THEN** that heart and every heart to its right switch to the pressed
+  (`heart_pressed.png`) state
+- **AND** every heart to its left switches to the normal (`heart.png`) state
+
+#### Scenario: Clicking the leftmost toggled heart clears the group
+- **WHEN** the user clicks the heart that is currently the leftmost toggled
+  heart
+- **THEN** all 4 hearts switch to the normal state
+
