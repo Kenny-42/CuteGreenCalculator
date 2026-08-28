@@ -31,7 +31,7 @@ public enum FaceState
 /// leaves touching <c>Window</c> itself to whoever hosts it.
 ///
 /// Owns one <see cref="CalculatorEngine"/> instance and wires every
-/// digit/operator/function/equals button to it, including the 45/90/180
+/// digit/operator/function/equals button to it, including the 45/90/180/270
 /// speed-dial shortcuts, which feed their digits through the same
 /// digit-entry path as typing them individually. Keyboard input and
 /// clipboard copy/paste drive the same engine paths as the buttons.
@@ -108,6 +108,7 @@ public partial class CalculatorView : UserControl
         Btn45.Click += (_, _) => InsertAtCaret("45");
         Btn90.Click += (_, _) => InsertAtCaret("90");
         Btn180.Click += (_, _) => InsertAtCaret("180");
+        Btn270.Click += (_, _) => InsertAtCaret("270");
 
         BtnCopyDisplay.Click += (_, _) => CopyDisplay();
     }
