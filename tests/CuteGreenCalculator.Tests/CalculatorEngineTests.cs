@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace CuteGreenCalculator.Tests;
 
 public class CalculatorEngineTests
@@ -448,6 +450,214 @@ public class CalculatorEngineTests
 
         engine.Equals();
         Assert.Equal("2", engine.Display);
+    }
+
+    // --- fix-subtract-from-result: '-' right after Equals must continue the
+    // chain from the shown result, not silently discard it and restart as a
+    // bare sign. ---
+
+    [Fact]
+    public void Subtract_FromAPriorResult_ContinuesTheChain()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "10");
+        engine.InputOperator('-');
+        EnterNumber(engine, "3");
+        engine.Equals();
+        Assert.Equal("7", engine.Display);
+
+        engine.InputOperator('-');
+        EnterNumber(engine, "2");
+        engine.Equals();
+        Assert.Equal("5", engine.Display);
+    }
+
+    [Fact]
+    public void Subtract_FromAPriorResult_RepeatedlyContinuesTheChain()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "20");
+        engine.InputOperator('-');
+        EnterNumber(engine, "5");
+        engine.Equals();
+        Assert.Equal("15", engine.Display);
+
+        engine.InputOperator('-');
+        EnterNumber(engine, "4");
+        engine.Equals();
+        Assert.Equal("11", engine.Display);
+
+        engine.InputOperator('-');
+        EnterNumber(engine, "1");
+        engine.Equals();
+        Assert.Equal("10", engine.Display);
+    }
+
+    [Fact]
+    public void Subtract_FromAnAdditionResult_ContinuesTheChain()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "4");
+        engine.InputOperator('+');
+        EnterNumber(engine, "6");
+        engine.Equals();
+        Assert.Equal("10", engine.Display);
+
+        engine.InputOperator('-');
+        EnterNumber(engine, "3");
+        engine.Equals();
+        Assert.Equal("7", engine.Display);
+    }
+
+    [Fact]
+    public void Subtract_RightAfterEquals_ShowsTheChainedExpressionBeforeEquals()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "10");
+        engine.InputOperator('-');
+        EnterNumber(engine, "3");
+        engine.Equals();
+        Assert.Equal("7", engine.Display);
+
+        engine.InputOperator('-');
+        Assert.Equal("7-", engine.Display);
+        EnterNumber(engine, "2");
+        Assert.Equal("7-2", engine.Display);
+    }
+
+    [Fact]
+    public void Subtract_FromAZeroResult_ContinuesTheChain()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "5");
+        engine.InputOperator('-');
+        EnterNumber(engine, "5");
+        engine.Equals();
+        Assert.Equal("0", engine.Display);
+
+        engine.InputOperator('-');
+        EnterNumber(engine, "3");
+        engine.Equals();
+        Assert.Equal("-3", engine.Display);
+    }
+
+    [Fact]
+    public void MinusAtVeryStart_IsStillTreatedAsANegativeSign()
+    {
+        var engine = new CalculatorEngine();
+        engine.InputOperator('-');
+        EnterNumber(engine, "5");
+        Assert.Equal("-5", engine.Display);
+
+        engine.InputOperator('+');
+        EnterNumber(engine, "3");
+        engine.Equals();
+        Assert.Equal("-2", engine.Display);
+    }
+
+    [Fact]
+    public void MinusAfterClear_IsStillTreatedAsANegativeSign()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "9");
+        engine.Clear();
+
+        engine.InputOperator('-');
+        EnterNumber(engine, "5");
+        Assert.Equal("-5", engine.Display);
+    }
+
+    [Theory]
+    [InlineData('+', "13")]
+    [InlineData('-', "7")]
+    [InlineData('*', "30")]
+    [InlineData('/', "3.33333333333333")]
+    public void EveryOperator_AfterEquals_ContinuesFromTheResult(char op, string expected)
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "6");
+        engine.InputOperator('+');
+        EnterNumber(engine, "4");
+        engine.Equals();
+        Assert.Equal("10", engine.Display);
+
+        engine.InputOperator(op);
+        EnterNumber(engine, "3");
+        engine.Equals();
+        Assert.Equal(expected, engine.Display);
+    }
+
+    // --- general math-logic coverage ---
+
+    [Theory]
+    [InlineData(7, 3)]
+    [InlineData(3, 7)]
+    [InlineData(-4, 9)]
+    [InlineData(0, 5)]
+    [InlineData(5, 0)]
+    public void Subtraction_MatchesExpectedArithmetic(double a, double b)
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, Math.Abs(a).ToString(CultureInfo.InvariantCulture));
+        if (a < 0) engine.ToggleSign();
+        engine.InputOperator('-');
+        EnterNumber(engine, Math.Abs(b).ToString(CultureInfo.InvariantCulture));
+        if (b < 0) engine.ToggleSign();
+        engine.Equals();
+        Assert.Equal((a - b).ToString("G15", CultureInfo.InvariantCulture), engine.Display);
+    }
+
+    [Fact]
+    public void Multiplication_ByZero_IsZero()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "123");
+        engine.InputOperator('*');
+        EnterNumber(engine, "0");
+        engine.Equals();
+        Assert.Equal("0", engine.Display);
+    }
+
+    [Fact]
+    public void Division_ByNonZero_ProducesExactQuotient()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "12");
+        engine.InputOperator('/');
+        EnterNumber(engine, "4");
+        engine.Equals();
+        Assert.Equal("3", engine.Display);
+    }
+
+    [Fact]
+    public void ChainedMixedOperators_EvaluateLeftToRightWithNoPrecedence()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "10");
+        engine.InputOperator('-');
+        EnterNumber(engine, "2");
+        engine.InputOperator('*');
+        EnterNumber(engine, "3");
+        engine.Equals();
+        // Left-to-right: (10 - 2) * 3 = 24, NOT 10 - (2*3) = 4.
+        Assert.Equal("24", engine.Display);
+    }
+
+    [Fact]
+    public void RepeatingEquals_AfterSubtraction_RepeatsTheSubtraction()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "20");
+        engine.InputOperator('-');
+        EnterNumber(engine, "5");
+        engine.Equals();
+        Assert.Equal("15", engine.Display);
+
+        engine.Equals();
+        Assert.Equal("10", engine.Display);
+
+        engine.Equals();
+        Assert.Equal("5", engine.Display);
     }
 
     [Fact]
