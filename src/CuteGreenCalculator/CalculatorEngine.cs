@@ -160,6 +160,44 @@ public class CalculatorEngine
         IsError = false;
     }
 
+    /// <summary>
+    /// Removes the last character of the current entry (the Backspace key).
+    /// Resets to "0" once only a single character - or a lone minus sign -
+    /// would remain, rather than leaving an invalid/empty entry.
+    /// </summary>
+    public void Backspace()
+    {
+        if (IsError || _startNewEntry) return;
+
+        if (_currentEntry.Length <= 1)
+        {
+            _currentEntry = "0";
+            return;
+        }
+
+        var trimmed = _currentEntry[..^1];
+        _currentEntry = trimmed == "-" ? "0" : trimmed;
+    }
+
+    /// <summary>
+    /// Accepts an externally-provided numeric string (e.g. pasted from the
+    /// clipboard) as the new current entry. Anything that doesn't parse as a
+    /// finite number is silently ignored, leaving the display unchanged.
+    /// </summary>
+    public void PasteValue(string text)
+    {
+        if (IsError) return;
+
+        if (!double.TryParse(text.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var value)
+            || double.IsNaN(value) || double.IsInfinity(value))
+        {
+            return;
+        }
+
+        _currentEntry = FormatNumber(value);
+        _startNewEntry = false;
+    }
+
     private double CurrentValue() =>
         double.TryParse(_currentEntry, NumberStyles.Float, CultureInfo.InvariantCulture, out var value)
             ? value
