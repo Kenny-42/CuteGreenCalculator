@@ -70,6 +70,47 @@ code-behind, driven by subscribing to the window's `StateChanged` event -
 this keeps the icon correct even when the state changes from something
 other than this button (double-click, Windows Snap, `Win+Up`/`Win+Down`).
 
+## Decision: Maximized letterbox is true transparency, not a solid fill
+
+Initially the outer `Viewbox`'s letterbox bars (see the maximize decision
+above) were filled with `Window.Background="#7B8A5E"`, the background art's
+own border color, as a "looks intentional" compromise. Revisited during
+review: the user asked whether the letterbox could show the desktop through
+it instead, and confirmed they wanted true transparency once told the
+trade-offs.
+
+`AllowsTransparency="True"` (with `Background="Transparent"`) is required
+for a per-pixel-alpha transparent window in WPF. The initial assumption was
+that this would conflict with the existing `WindowChrome`-based edge/corner
+resize (`CaptionHeight="0"`/`ResizeBorderThickness="6"`) and require
+replacing it with a manual `WM_NCHITTEST` hook, similar in spirit to the
+existing `WM_SIZING` aspect-ratio hook. That assumption was tested directly
+rather than taken on faith: `AllowsTransparency="True"` was added to the
+existing `WindowChrome` setup unchanged, then verified with the project's
+established interactive-automation approach (not `SetWindowPos`/`MoveWindow`,
+which don't exercise the real code paths) -
+
+- A genuine `WM_SYSCOMMAND`/`SC_SIZE` edge-drag (single edge, away from
+  screen edges to avoid the clamping quirk noted in project memory) still
+  produced an exact aspect-ratio match.
+- A raw mouse-down-move-up drag on `TitleBarView`'s `DragZone` (not
+  `InvokePattern`, since it's a plain `MouseLeftButtonDown` handler) still
+  moved the window by exactly the simulated delta.
+- Maximize/restore via `InvokePattern` still swapped `WindowState` and the
+  button icon correctly, and a real desktop screenshot (not `PrintWindow`,
+  which renders transparent regions as opaque black and would have given a
+  false negative here) confirmed the letterboxed area genuinely shows
+  whatever is behind the window on the desktop.
+
+So `WindowChrome` was kept as-is; only `MainWindow.xaml`'s `Background` and
+`AllowsTransparency` changed. No manual hit-testing rewrite was needed.
+
+**Trade-off accepted**: `AllowsTransparency="True"` disables the DWM drop
+shadow around the window entirely (a known WPF limitation, unrelated to
+`WindowChrome`). The user was informed of this before choosing true
+transparency over the alternatives (keep the solid fill, or a semi-transparent
+tint) and accepted it.
+
 ## Decision: Daisy is a non-hit-testable overlay, not baked into the button art
 
 Matching the existing `face_screen.png` + `face.png` overlay pattern, the

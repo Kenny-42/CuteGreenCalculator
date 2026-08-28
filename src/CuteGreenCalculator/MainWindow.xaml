@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Cute Green Calculator"
         Icon="pack://application:,,,/Assets/app.ico"
-        Background="#7B8A5E"
+        Background="Transparent"
+        AllowsTransparency="True"
         WindowStyle="None"
         Width="496" Height="896"
         MinWidth="248" MinHeight="448"
@@ -22,8 +23,16 @@
         drag-to-move and double-click-maximize itself via DragMove, rather
         than relying on WPF's automatic system-caption behavior, which would
         also swallow clicks meant for the logo/window-control buttons).
-        Background is the background art's own border color (#7B8A5E) so a
-        maximized window's Viewbox letterbox bars blend in.
+        Background="Transparent" + AllowsTransparency="True" make a
+        maximized window's Viewbox letterbox bars true desktop transparency
+        (see through to whatever's behind the window) rather than a solid
+        color fill - a follow-up over the initial #7B8A5E olive fill, picked
+        once testing confirmed WindowChrome's resize/drag/maximize behavior
+        all keep working unchanged with AllowsTransparency enabled (verified
+        via interactive WM_SYSCOMMAND/SC_SIZE edge-drag, a raw mouse-driven
+        drag on TitleBarView's DragZone, and maximize/restore - see
+        design.md). The one accepted trade-off is losing the DWM drop
+        shadow, which AllowsTransparency disables entirely.
     -->
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="0"

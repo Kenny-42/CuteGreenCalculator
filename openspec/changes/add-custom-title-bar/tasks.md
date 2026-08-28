@@ -57,3 +57,15 @@
   work, and that the maximize icon swaps to restore (and back) after each.
 - [x] 4.5 Verify clicking the logo/daisy button resets the display the same
   way `C` does.
+
+## 5. True-transparency maximized letterbox (review follow-up)
+
+- [x] 5.1 In `MainWindow.xaml`, change `Background` from `#7B8A5E` to
+  `Transparent` and add `AllowsTransparency="True"`.
+- [x] 5.2 Re-verify (see design.md for method/results): interactive
+  `WM_SYSCOMMAND`/`SC_SIZE` edge-drag resize still holds the aspect ratio, a
+  raw-mouse drag on the title bar's `DragZone` still moves the window,
+  maximize/restore still toggle correctly, and `dotnet build`/`dotnet test`
+  stay clean (39/39 passing).
+- [x] 5.3 Confirm via a real desktop screenshot (not `PrintWindow`) that the
+  maximized letterbox genuinely shows the desktop through it.
