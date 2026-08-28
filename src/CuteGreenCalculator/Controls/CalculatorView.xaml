@@ -6,6 +6,8 @@
              mc:Ignorable="d"
              SnapsToDevicePixels="True"
              UseLayoutRounding="True"
+             Focusable="True"
+             FocusVisualStyle="{x:Null}"
              d:DesignHeight="840" d:DesignWidth="496">
 
     <!--
@@ -25,6 +27,19 @@
         <Image Source="pack://application:,,,/Assets/background.png"
                Stretch="Fill"
                RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+        <!--
+            Always-on-top toggle. See AlwaysOnTopToggleStyle in
+            PixelButtonStyles.xaml for a note on its TEMPORARY placeholder
+            art (issue #5).
+        -->
+        <ToggleButton x:Name="BtnAlwaysOnTop"
+                      Style="{StaticResource AlwaysOnTopToggleStyle}"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Margin="0,24,24,0"
+                      ToolTip="Keep window on top"
+                      AutomationProperties.Name="Always on top toggle" />
 
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
@@ -75,7 +90,14 @@
                            TextAlignment="Right"
                            VerticalAlignment="Center"
                            Padding="0,0,20,0"
-                           TextTrimming="CharacterEllipsis" />
+                           TextTrimming="CharacterEllipsis">
+                    <TextBlock.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="CopyMenuItem" Header="Copy" />
+                            <MenuItem x:Name="PasteMenuItem" Header="Paste" />
+                        </ContextMenu>
+                    </TextBlock.ContextMenu>
+                </TextBlock>
             </Grid>
 
             <!-- Speed-dial row -->

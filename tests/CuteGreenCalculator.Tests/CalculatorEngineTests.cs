@@ -193,6 +193,78 @@ public class CalculatorEngineTests
     }
 
     [Fact]
+    public void Backspace_RemovesLastCharacter()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "123");
+        engine.Backspace();
+        Assert.Equal("12", engine.Display);
+    }
+
+    [Fact]
+    public void Backspace_OnSingleDigit_ResetsToZero()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "7");
+        engine.Backspace();
+        Assert.Equal("0", engine.Display);
+    }
+
+    [Fact]
+    public void Backspace_NeverLeavesABareMinusSign()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "5");
+        engine.ToggleSign();
+        Assert.Equal("-5", engine.Display);
+
+        engine.Backspace();
+        Assert.Equal("0", engine.Display);
+    }
+
+    [Fact]
+    public void Backspace_OnFreshEntry_IsNoOp()
+    {
+        var engine = new CalculatorEngine();
+        engine.Backspace();
+        Assert.Equal("0", engine.Display);
+    }
+
+    [Fact]
+    public void PasteValue_ValidNumber_ReplacesCurrentEntry()
+    {
+        var engine = new CalculatorEngine();
+        engine.PasteValue("3.5");
+        Assert.Equal("3.5", engine.Display);
+
+        engine.InputDigit('1');
+        Assert.Equal("3.51", engine.Display);
+    }
+
+    [Fact]
+    public void PasteValue_InvalidText_IsIgnored()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "42");
+        engine.PasteValue("hello");
+        Assert.Equal("42", engine.Display);
+    }
+
+    [Fact]
+    public void PasteValue_WhileInError_IsIgnored()
+    {
+        var engine = new CalculatorEngine();
+        EnterNumber(engine, "5");
+        engine.InputOperator('/');
+        EnterNumber(engine, "0");
+        engine.Equals();
+        Assert.Equal("Error", engine.Display);
+
+        engine.PasteValue("9");
+        Assert.Equal("Error", engine.Display);
+    }
+
+    [Fact]
     public void FloatingPointNoise_IsAvoided()
     {
         var engine = new CalculatorEngine();
