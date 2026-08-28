@@ -74,8 +74,21 @@ public class CalculatorEngine
         // A fresh entry (the initial "0", or right after Equals) is replaced
         // wholesale by a new number rather than appended to - but a binary
         // operator instead continues the chain from the existing value
-        // (e.g. "5 =" then "+" should give "5+", not replace "5").
-        bool wholeReplace = (_text == "0" || _startNewEntry) && insertText[0] is not ('+' or '*' or '/');
+        // (e.g. "5 =" then "+" should give "5+", not replace "5"). '-' is
+        // ambiguous (it can be the start of a negative number OR the
+        // subtraction operator), so it only gets whole-replace treatment
+        // when there's no real value to chain from yet (_text == "0" and,
+        // if we just landed on "0" via Equals, that Equals had no prior
+        // operation to repeat either) - otherwise, like +/*//, it continues
+        // the chain (e.g. "7 =" then "-" should give "7-", not replace "7"
+        // with a bare "-", which silently corrupted the next subtraction -
+        // see fix-subtract-from-result).
+        bool wholeReplace = insertText[0] switch
+        {
+            '+' or '*' or '/' => false,
+            '-' => _text == "0" && !(_startNewEntry && _lastOperator is not null),
+            _ => _text == "0" || _startNewEntry,
+        };
 
         string candidate;
         if (wholeReplace)

@@ -68,7 +68,7 @@
                            Text="Cute Green Calculator"
                            FontFamily="{StaticResource PixelFont}"
                            FontSize="14"
-                           Foreground="#3E5C3B"
+                           Foreground="#7B895E"
                            VerticalAlignment="Center"
                            Margin="12,0,4,0"
                            TextTrimming="None"

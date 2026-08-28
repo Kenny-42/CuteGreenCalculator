@@ -41,7 +41,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="FontFamily" Value="{StaticResource PixelFont}" />
         <Setter Property="FontSize" Value="28" />
-        <Setter Property="Foreground" Value="#3E5C3B" />
+        <Setter Property="Foreground" Value="#7B895E" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
