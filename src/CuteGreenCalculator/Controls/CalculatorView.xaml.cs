@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -55,6 +56,13 @@ public partial class CalculatorView : UserControl
     // rejected native edit) - see OnDisplayTextChanged.
     private bool _syncingText;
 
+    // Left-to-right order the heart group toggles in - see WireHearts.
+    private ToggleButton[] Hearts => [Heart0, Heart1, Heart2, Heart3];
+
+    // Index of the leftmost currently-toggled heart, or null if none are
+    // toggled (the initial/rest state) - see OnHeartClicked.
+    private int? _heartThreshold;
+
     /// <summary>Raised when the always-on-top toggle's checked state changes.</summary>
     public event Action<bool>? AlwaysOnTopChanged;
 
@@ -65,6 +73,7 @@ public partial class CalculatorView : UserControl
         WireKeyboard();
         WireClipboard();
         WireAlwaysOnTop();
+        WireHearts();
         RefreshDisplay();
 
         Loaded += (_, _) => DisplayText.Focus();
@@ -248,6 +257,45 @@ public partial class CalculatorView : UserControl
     {
         BtnAlwaysOnTop.Checked += (_, _) => AlwaysOnTopChanged?.Invoke(true);
         BtnAlwaysOnTop.Unchecked += (_, _) => AlwaysOnTopChanged?.Invoke(false);
+    }
+
+    /// <summary>
+    /// Purely decorative heart toggle group - no CalculatorEngine
+    /// involvement. Each heart's Click still fires ToggleButton's own
+    /// default IsChecked flip first, but <see cref="OnHeartClicked"/>
+    /// immediately overwrites every heart's IsChecked from
+    /// <see cref="_heartThreshold"/> instead, so the four buttons always end
+    /// up in one of the five valid group states (all off, or off/on split at
+    /// some index) rather than whatever an independent toggle would produce.
+    /// </summary>
+    private void WireHearts()
+    {
+        for (var i = 0; i < Hearts.Length; i++)
+        {
+            var index = i;
+            Hearts[index].Click += (_, _) => OnHeartClicked(index);
+        }
+    }
+
+    /// <summary>
+    /// Clicking a heart toggles it and every heart to its right on,
+    /// untoggling everything to its left - i.e. sets the group's threshold
+    /// to the clicked index. Clicking the leftmost already-toggled heart
+    /// (clicking the current threshold again) clears the whole group back to
+    /// off instead of re-applying the same threshold.
+    /// </summary>
+    private void OnHeartClicked(int index)
+    {
+        _heartThreshold = _heartThreshold == index ? null : index;
+        RefreshHearts();
+    }
+
+    private void RefreshHearts()
+    {
+        for (var i = 0; i < Hearts.Length; i++)
+        {
+            Hearts[i].IsChecked = _heartThreshold.HasValue && i >= _heartThreshold.Value;
+        }
     }
 
     /// <summary>
