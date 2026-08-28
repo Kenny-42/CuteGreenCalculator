@@ -133,11 +133,8 @@
     </ControlTemplate>
 
     <!--
-        TEMPORARY placeholder art (see add-input-and-window-features / issue #5):
-        the always-on-top toggle reuses heart.png/heart_screen.png because no
-        dedicated pin/thumbtack sprite exists yet. This style is the only place
-        that references them for this purpose - swap both BitmapImage URIs
-        below when real art is ready.
+        Always-on-top toggle: pin icon art (issue #19), native 5x7 px
+        rendered at the app's standard 8x integer scale (40x56).
     -->
     <Style x:Key="AlwaysOnTopToggleStyle" TargetType="ToggleButton">
         <Setter Property="Template" Value="{StaticResource PixelToggleButtonTemplate}" />
@@ -148,15 +145,15 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Width" Value="40" />
-        <Setter Property="Height" Value="40" />
+        <Setter Property="Height" Value="56" />
         <Setter Property="Tag">
             <Setter.Value>
-                <BitmapImage UriSource="pack://application:,,,/Assets/heart.png" />
+                <BitmapImage UriSource="pack://application:,,,/Assets/star.png" />
             </Setter.Value>
         </Setter>
         <Setter Property="local:PixelButton.CheckedSource">
             <Setter.Value>
-                <BitmapImage UriSource="pack://application:,,,/Assets/heart_screen.png" />
+                <BitmapImage UriSource="pack://application:,,,/Assets/star_pressed.png" />
             </Setter.Value>
         </Setter>
     </Style>
@@ -182,36 +179,24 @@
         </Setter>
     </Style>
 
-    <!-- Speed-dial skins -->
-
-    <Style x:Key="MidGreenShortButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
-        <Setter Property="Width" Value="112" />
+    <!--
+        Speed-dial skin (issue #19): uniform 96x80, same native size as
+        every number/operator button, so all four speed-dial buttons
+        (45/90/180/270) share one width and still align with the output
+        screen.
+    -->
+    <Style x:Key="MidGreenButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="96" />
         <Setter Property="Height" Value="80" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Tag">
             <Setter.Value>
-                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_short.png" />
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button.png" />
             </Setter.Value>
         </Setter>
         <Setter Property="local:PixelButton.PressedSource">
             <Setter.Value>
-                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_short_pressed.png" />
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="MidGreenLongButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
-        <Setter Property="Width" Value="176" />
-        <Setter Property="Height" Value="80" />
-        <Setter Property="FontSize" Value="18" />
-        <Setter Property="Tag">
-            <Setter.Value>
-                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_long.png" />
-            </Setter.Value>
-        </Setter>
-        <Setter Property="local:PixelButton.PressedSource">
-            <Setter.Value>
-                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_long_pressed.png" />
+                <BitmapImage UriSource="pack://application:,,,/Assets/mid_green_button_pressed.png" />
             </Setter.Value>
         </Setter>
     </Style>

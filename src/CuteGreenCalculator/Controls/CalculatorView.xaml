@@ -130,48 +130,49 @@
 
             <!-- Speed-dial row -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,8">
-                <Button x:Name="Btn45" Content="45" Style="{StaticResource MidGreenShortButtonStyle}" Margin="0,0,16,0" />
-                <Button x:Name="Btn90" Content="90" Style="{StaticResource MidGreenShortButtonStyle}" Margin="0,0,16,0" />
-                <Button x:Name="Btn180" Content="180" Style="{StaticResource MidGreenLongButtonStyle}" />
+                <Button x:Name="Btn45" Content="45" Style="{StaticResource MidGreenButtonStyle}" Margin="0,0,16,0" />
+                <Button x:Name="Btn90" Content="90" Style="{StaticResource MidGreenButtonStyle}" Margin="0,0,16,0" />
+                <Button x:Name="Btn180" Content="180" Style="{StaticResource MidGreenButtonStyle}" Margin="0,0,16,0" />
+                <Button x:Name="Btn270" Content="270" Style="{StaticResource MidGreenButtonStyle}" />
             </StackPanel>
 
-            <!-- Row: C CE +/- √ -->
+            <!-- Row: C CE +/- ÷ -->
             <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,8">
                 <Button x:Name="BtnClear" Content="C" Style="{StaticResource LightPinkButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="BtnClearEntry" Content="CE" Style="{StaticResource LightPinkButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="BtnSign" Content="+/-" Style="{StaticResource LightPinkButtonStyle}" Margin="0,0,16,0" />
-                <Button x:Name="BtnSqrt" Content="√" Style="{StaticResource LightPinkButtonStyle}" />
+                <Button x:Name="BtnDivide" Content="÷" Style="{StaticResource MidPinkButtonStyle}" />
             </StackPanel>
 
-            <!-- Row: 7 8 9 ÷ -->
+            <!-- Row: 7 8 9 × -->
             <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,0,0,8">
                 <Button x:Name="Btn7" Content="7" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="Btn8" Content="8" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="Btn9" Content="9" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
-                <Button x:Name="BtnDivide" Content="÷" Style="{StaticResource MidPinkButtonStyle}" />
+                <Button x:Name="BtnMultiply" Content="×" Style="{StaticResource MidPinkButtonStyle}" />
             </StackPanel>
 
-            <!-- Row: 4 5 6 × -->
+            <!-- Row: 4 5 6 − -->
             <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,8">
                 <Button x:Name="Btn4" Content="4" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="Btn5" Content="5" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="Btn6" Content="6" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
-                <Button x:Name="BtnMultiply" Content="×" Style="{StaticResource MidPinkButtonStyle}" />
+                <Button x:Name="BtnSubtract" Content="−" Style="{StaticResource MidPinkButtonStyle}" />
             </StackPanel>
 
-            <!-- Row: 1 2 3 − -->
+            <!-- Row: 1 2 3 + -->
             <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,0,0,8">
                 <Button x:Name="Btn1" Content="1" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="Btn2" Content="2" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="Btn3" Content="3" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
-                <Button x:Name="BtnSubtract" Content="−" Style="{StaticResource MidPinkButtonStyle}" />
+                <Button x:Name="BtnAdd" Content="+" Style="{StaticResource MidPinkButtonStyle}" />
             </StackPanel>
 
-            <!-- Row: 0 . + = -->
+            <!-- Row: 0 . √ = -->
             <StackPanel Grid.Row="7" Orientation="Horizontal">
                 <Button x:Name="Btn0" Content="0" Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="BtnDecimal" Content="." Style="{StaticResource LightGreenButtonStyle}" Margin="0,0,16,0" />
-                <Button x:Name="BtnAdd" Content="+" Style="{StaticResource MidPinkButtonStyle}" Margin="0,0,16,0" />
+                <Button x:Name="BtnSqrt" Content="√" Style="{StaticResource LightPinkButtonStyle}" Margin="0,0,16,0" />
                 <Button x:Name="BtnEquals" Content="=" Style="{StaticResource DarkPinkButtonStyle}" />
             </StackPanel>
 
