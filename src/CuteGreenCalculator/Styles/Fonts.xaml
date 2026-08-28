@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Embedded pixel font (Press Start 2P, SIL Open Font License - see
+        Assets/Fonts/OFL.txt) used for every button label and the display
+        readout, so the whole app reads as one consistent pixel-art typeface.
+    -->
+    <FontFamily x:Key="PixelFont">pack://application:,,,/CuteGreenCalculator;component/Assets/Fonts/#Press Start 2P</FontFamily>
+
+</ResourceDictionary>
