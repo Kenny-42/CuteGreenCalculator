@@ -15,20 +15,14 @@
         here at an 8x integer scale (496x840) with nearest-neighbor sampling so
         the pixel art stays crisp. This control owns all calculator face layout;
         it must not depend on anything window-chrome related (title, resize
-        mode, etc.) so a future custom borderless window frame can host it
-        unchanged.
+        mode, etc.) so the custom borderless window frame (TitleBarView) can
+        host it unchanged.
 
-        No calculator logic is wired up here yet (see add-calculator-engine) -
-        DisplayText shows a static placeholder and buttons have no Click
-        handlers.
-
-        The Grid below stays fixed at its native 496x840 "design" size; the
-        Viewbox wrapping it scales the whole rendered face as one unit to
-        fill whatever size MainWindow currently is (see add-resizable-window).
-        MainWindow locks the window's aspect ratio during resize, so this
-        Viewbox only ever scales uniformly - it never needs to letterbox.
+        This Grid stays fixed at its native 496x840 "design" size and renders
+        unscaled - MainWindow owns the single outer Viewbox that scales this
+        control together with TitleBarView as one unit (see issue #16;
+        previously this control had its own Viewbox, see add-resizable-window).
     -->
-    <Viewbox Stretch="Uniform">
     <Grid Width="496" Height="840">
 
         <Image Source="pack://application:,,,/Assets/background.png"
@@ -177,5 +171,4 @@
 
         </Grid>
     </Grid>
-    </Viewbox>
 </UserControl>

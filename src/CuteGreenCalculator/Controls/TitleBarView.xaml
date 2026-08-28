@@ -1,0 +1,92 @@
+<UserControl x:Class="CuteGreenCalculator.Controls.TitleBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             d:DesignHeight="56" d:DesignWidth="496">
+
+    <!--
+        Custom pixel-art title bar (issue #16). Native title_bar.png is 62x7 -
+        the same width as background.png - so at the app's standard 8x scale
+        it renders as 496x56, exactly as wide as the calculator face below it.
+        Unlike CalculatorView, this control IS window-chrome-aware by design
+        (see design.md): it drives Window.DragMove/WindowState/Close directly
+        from its code-behind rather than raising events for everything,
+        because driving the window is its entire purpose. The one exception
+        is the logo/reset button, which raises ResetRequested instead of
+        reaching into CalculatorView directly, keeping this control decoupled
+        from calculator logic specifically.
+
+        This control renders at its native 496x56 design size; MainWindow's
+        single outer Viewbox (see MainWindow.xaml) scales it uniformly
+        together with CalculatorView.
+    -->
+    <Grid Width="496" Height="56">
+
+        <Image x:Name="BackgroundImage"
+               Source="pack://application:,,,/Assets/title_bar.png"
+               Stretch="Fill"
+               RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--
+                Logo button: logo_button.png is the button's own frame/skin;
+                daisy.png is a separate overlay drawn on top so clicks always
+                reach the button beneath rather than being swallowed by the
+                overlay image (same layering pattern as face_screen+face in
+                CalculatorView).
+            -->
+            <Grid Grid.Column="0">
+                <Button x:Name="BtnLogo"
+                        Style="{StaticResource LogoButtonStyle}"
+                        ToolTip="Reset"
+                        AutomationProperties.Name="Reset" />
+                <Image Source="pack://application:,,,/Assets/daisy.png"
+                       Width="40" Height="48"
+                       Stretch="Fill"
+                       RenderOptions.BitmapScalingMode="NearestNeighbor"
+                       IsHitTestVisible="False" />
+            </Grid>
+
+            <!--
+                Drag zone: covers the title text and all empty strip space.
+                MouseLeftButtonDown here drives DragMove/maximize-restore
+                (see code-behind) rather than the whole strip, so clicks on
+                the logo/window-control buttons are never treated as drags.
+            -->
+            <Grid x:Name="DragZone" Grid.Column="1" Background="Transparent">
+                <TextBlock Text="Cute Green Calculator"
+                           FontFamily="{StaticResource PixelFont}"
+                           FontSize="12"
+                           Foreground="#3E5C3B"
+                           VerticalAlignment="Center"
+                           Margin="12,0,0,0"
+                           IsHitTestVisible="False" />
+            </Grid>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button x:Name="BtnMinimize"
+                        Style="{StaticResource MinimizeButtonStyle}"
+                        ToolTip="Minimize"
+                        AutomationProperties.Name="Minimize" />
+                <Button x:Name="BtnMaximizeRestore"
+                        Style="{StaticResource MaximizeButtonStyle}"
+                        ToolTip="Maximize"
+                        AutomationProperties.Name="Maximize" />
+                <Button x:Name="BtnClose"
+                        Style="{StaticResource CloseButtonStyle}"
+                        ToolTip="Close"
+                        AutomationProperties.Name="Close" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

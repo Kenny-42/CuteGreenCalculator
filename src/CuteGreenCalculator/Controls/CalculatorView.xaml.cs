@@ -24,11 +24,13 @@ public enum FaceState
 /// <summary>
 /// Renders the calculator face: background art, screen, and button grid.
 /// Deliberately has no knowledge of the hosting window's chrome (title bar,
-/// resize mode, etc.) so a future custom borderless frame can host this
-/// control unchanged. The always-on-top toggle and window focus are
+/// resize mode, etc.) so the custom borderless frame (<c>TitleBarView</c>)
+/// can host it unchanged. The always-on-top toggle and window focus are
 /// window-level concerns, so this view only raises
 /// <see cref="AlwaysOnTopChanged"/> / exposes <see cref="SetFocused"/> and
-/// leaves touching <c>Window</c> itself to whoever hosts it.
+/// leaves touching <c>Window</c> itself to whoever hosts it. Similarly,
+/// <see cref="ResetDisplay"/> exposes the `C` action for the title bar's
+/// logo button, without the title bar reaching into the engine directly.
 ///
 /// Owns one <see cref="CalculatorEngine"/> instance and wires every
 /// digit/operator/function/equals button to it, including the 45/90/180/270
@@ -263,6 +265,16 @@ public partial class CalculatorView : UserControl
     private void SetFaceState(FaceState state)
     {
         FaceImage.Source = FaceStateAssets[state];
+    }
+
+    /// <summary>
+    /// Resets the display exactly as if the `C` button had been clicked.
+    /// Called by the hosting window in response to the title bar's logo/
+    /// daisy button (see <see cref="TitleBarView.ResetRequested"/>).
+    /// </summary>
+    public void ResetDisplay()
+    {
+        Handle(_engine.Clear);
     }
 
     /// <summary>

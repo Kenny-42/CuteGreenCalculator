@@ -201,4 +201,91 @@
         </Setter>
     </Style>
 
+    <!--
+        Title bar button skins (issue #16): native 9x7 art at the app's
+        standard 8x scale, giving 72x56 buttons. Shares PixelButtonBaseStyle/
+        PixelButtonTemplate with every other button in the app - only the
+        skin differs.
+    -->
+
+    <Style x:Key="LogoButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="72" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/logo_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/logo_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="72" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/minimize_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/minimize_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        Maximize/restore is one button whose Style is swapped at runtime
+        between this and RestoreButtonStyle (see TitleBarView.xaml.cs) rather
+        than two buttons shown/hidden by state.
+    -->
+    <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="72" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/maximize_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/maximize_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="RestoreButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="72" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/restore_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/restore_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource PixelButtonBaseStyle}">
+        <Setter Property="Width" Value="72" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Tag">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/close_button.png" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="local:PixelButton.PressedSource">
+            <Setter.Value>
+                <BitmapImage UriSource="pack://application:,,,/Assets/close_button_pressed.png" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
