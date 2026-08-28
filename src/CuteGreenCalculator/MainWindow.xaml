@@ -1,0 +1,19 @@
+<Window x:Class="CuteGreenCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:CuteGreenCalculator.Controls"
+        mc:Ignorable="d"
+        Title="Cute Green Calculator"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen">
+
+    <!--
+        MainWindow only owns window-level chrome (title, sizing, resize behavior).
+        All calculator visuals/behavior live in CalculatorView so the chrome can be
+        swapped for a custom borderless frame later without touching the face.
+    -->
+    <controls:CalculatorView />
+</Window>

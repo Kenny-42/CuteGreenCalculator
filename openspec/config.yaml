@@ -1,0 +1,21 @@
+schema: spec-driven
+
+context: |
+  Project: CuteGreenCalculator - a pixel-art themed WPF desktop calculator for Windows.
+  Tech stack: C#, WPF, .NET 10 (net10.0-windows). No third-party UI libraries.
+  Art assets are pre-made PNG sprites (button skins with separate pressed states, no
+  hover states, background panel, screen, decorative sprites) sourced from
+  "../CuteGreenCalculator - Resources/pixilart assets/pixilart assets" and copied into
+  the repo under Assets/. Pixel art must render with nearest-neighbor scaling (no blur).
+  A free embedded pixel/LCD font is used for button labels and the display readout.
+  Window uses a standard Win32 title bar for now; the calculator face lives in its own
+  CalculatorView UserControl so a custom borderless frame can be swapped in later
+  without touching calculator logic or layout.
+  Git workflow: one GitHub Issue per OpenSpec change, branch named "<issue#>-<slug>",
+  PR body includes "Closes #<issue#>", PRs are kept small and merged by the assistant
+  after the build passes CI.
+
+rules:
+  tasks:
+    - Group tasks so each maps to a small, reviewable commit.
+    - Include a final task to update this change's status/verify the build runs.
