@@ -43,5 +43,5 @@
 ## 5. Wrap-up
 
 - [x] 5.1 `dotnet build` and `dotnet test` both still pass (25/25 tests)
-- [ ] 5.2 Open PR against `main` with "Closes #7", wait for CI, self-merge
-  per project workflow
+- [x] 5.2 Open PR against `main` with "Closes #7", wait for CI, self-merge
+  per project workflow - PR #14, CI passed, squash-merged, branch deleted
