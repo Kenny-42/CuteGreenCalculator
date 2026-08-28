@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run/Debug CuteGreenCalculator",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/CuteGreenCalculator/bin/Debug/net10.0-windows/CuteGreenCalculator.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/CuteGreenCalculator",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        }
+    ]
+}
