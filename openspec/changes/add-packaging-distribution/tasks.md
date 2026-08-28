@@ -22,22 +22,26 @@
 
 ## 3. Release automation
 
-- [ ] 3.1 Add `.github/workflows/release.yml`: triggers on `v*` tag push and
-  `workflow_dispatch`, builds the self-contained win-x64 exe, attaches it to
-  a GitHub Release
-- [ ] 3.2 Sanity-check the workflow YAML (actionlint/`gh workflow` if
-  available, or careful manual review) since a tag-triggered workflow is hard
-  to dry-run locally
+- [x] 3.1 Add `.github/workflows/release.yml`: triggers on `v*` tag push and
+  `workflow_dispatch` (with a required `tag_name` input for manual runs,
+  since `softprops/action-gh-release` needs a tag to attach to), builds the
+  self-contained win-x64 exe, renames it to
+  `CuteGreenCalculator-win-x64.exe`, attaches it to a GitHub Release
+- [x] 3.2 Sanity-check the workflow YAML - validated as well-formed YAML
+  (`yaml.safe_load`); actionlint wasn't available locally, so also did a
+  careful manual review against `build.yml`'s established pattern (same
+  `windows-latest` runner, same `setup-dotnet` action/version) since a
+  tag-triggered workflow is hard to dry-run locally
 
 ## 4. Documentation
 
-- [ ] 4.1 Add a "Publishing a release build" section to `README.md` with the
+- [x] 4.1 Add a "Publishing a release build" section to `README.md` with the
   exact `dotnet publish` command
-- [ ] 4.2 Mention the automated release workflow (tag push triggers a GitHub
+- [x] 4.2 Mention the automated release workflow (tag push triggers a GitHub
   Release with the attached exe)
 
 ## 5. Wrap-up
 
-- [ ] 5.1 `dotnet build` and `dotnet test` both still pass
+- [x] 5.1 `dotnet build` and `dotnet test` both still pass (25/25 tests)
 - [ ] 5.2 Open PR against `main` with "Closes #7", wait for CI, self-merge
   per project workflow
